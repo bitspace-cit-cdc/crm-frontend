@@ -1,9 +1,13 @@
-export default function CustomerManagement() {
+import { CustomersTable } from "@/components"; 
+
+const CustomerManagementPage = () => {
   return (
-    <div>
+    <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Customer Management</h1>
-      <p>This is the Customer Management page.</p>
+      <CustomersTable /> 
     </div>
   );
-}
+};
+
+export default CustomerManagementPage;
 
