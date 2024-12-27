@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
 import { Sidebar } from "@/components";
+import { Breadcrumbs } from "@/components";
 
 export const metadata: Metadata = {
   title: "CRM",
@@ -16,7 +17,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-gray-100">
         <Sidebar/>
-        <main className="ml-64 p-8"> {children} </main>
+        <main className="ml-64 p-8">
+	       <Breadcrumbs/>
+       		{children} 
+	</main>
       </body>
     </html>
   );
