@@ -1,6 +1,8 @@
 "use client";
+
 import React, { useEffect } from "react";
 import axios from "axios";
+import Link from "next/link";
 import { useCustomerStore } from "@store/store";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,8 +37,8 @@ const CustomersTable = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     setSearchQuery(query);
-    
-    if (query.trim() === '') {
+
+    if (query.trim() === "") {
       setFilteredCustomers(customers);
     } else {
       const filtered = customers.filter((customer) =>
@@ -92,7 +94,11 @@ const CustomersTable = () => {
               <tbody>
                 {currentPageData.map((customer, index) => (
                   <tr key={index} className="hover:bg-gray-50">
-                    <td className="border p-3">{customer.name}</td>
+                    <td className="border p-3">
+                      <Link href={`/customer-management/${customer["customer_id"]}`} className="text-blue-500 hover:underline">
+                        {customer.name}
+                      </Link>
+                    </td>
                     <td className="border p-3">{customer.email}</td>
                     <td className="border p-3">{customer.phone}</td>
                     <td className="border p-3">{customer.address}</td>
@@ -135,3 +141,4 @@ const CustomersTable = () => {
 };
 
 export default CustomersTable;
+
