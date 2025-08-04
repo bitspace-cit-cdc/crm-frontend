@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -6,9 +6,9 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 
 export default function QueryAnalytics() {
-  const [query, setQuery] = useState<string>(""); 
-  const [results, setResults] = useState<any>(null); 
-  const [loading, setLoading] = useState<boolean>(false); 
+  const [query, setQuery] = useState<string>("");
+  const [results, setResults] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleQuerySubmit = async (e: React.FormEvent) => {
@@ -18,7 +18,7 @@ export default function QueryAnalytics() {
     setResults(null);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/query", {
+      const response = await fetch("http://127.0.0.1:4000/query", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,12 +42,16 @@ export default function QueryAnalytics() {
   return (
     <Card className="p-6">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">Analytics & Management</CardTitle>
+        <CardTitle className="text-2xl font-bold">
+          Analytics & Management
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleQuerySubmit} className="space-y-4">
           <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">Enter your query:</label>
+            <label className="block mb-2 text-sm font-medium text-gray-700">
+              Enter your query:
+            </label>
             <Input
               type="text"
               value={query}
@@ -56,7 +60,10 @@ export default function QueryAnalytics() {
               className="w-full"
             />
           </div>
-          <Button type="submit" className="bg-zinc-700 text-white hover:bg-zinc-600">
+          <Button
+            type="submit"
+            className="bg-zinc-700 text-white hover:bg-zinc-600"
+          >
             Submit
           </Button>
         </form>
@@ -82,4 +89,3 @@ export default function QueryAnalytics() {
     </Card>
   );
 }
-

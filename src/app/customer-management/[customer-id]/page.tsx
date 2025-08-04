@@ -28,10 +28,16 @@ const CustomerProfilePage = () => {
           setLoading(true);
           console.log("Fetching customer with ID:", customerId); // Debugging log
           const response = await axios.get(
-            `http://localhost:6969/api/v1/customers/${customerId}`
+            `http://localhost:6969/api/v1/customers/${customerId}`,
           );
+          const fetchedCustomer = response.data?.data;
+          if (fetchedCustomer) {
+            setCustomer(fetchedCustomer);
+          } else {
+            console.warn("Customer not found in response:", response.data);
+            setError(true);
+          }
           console.log("Customer data fetched:", response.data); // Debugging log
-          setCustomer(response.data.data[0]); // Access the first item in the data array
         } catch (err) {
           console.error("Error fetching customer:", err);
           setError(true);
@@ -44,12 +50,14 @@ const CustomerProfilePage = () => {
     }
   }, [customerId]);
 
-  if (loading) {
-    return <div className="text-center py-10 text-gray-500">Loading...</div>;
-  }
+  useEffect(() => {
+    if (customer) {
+      console.log("Customer updated:", customer);
+    }
+  }, [customer]);
 
-  if (error || !customer) {
-    return <div className="text-center py-10 text-red-500">Customer not found.</div>;
+  if (loading || !customer) {
+    return <div className="text-center py-10 text-gray-500">Loading...</div>;
   }
 
   const handleCall = () => {
@@ -94,7 +102,12 @@ const CustomerProfilePage = () => {
             <h3 className="font-semibold">Basic Info</h3>
             <p>Gender: {customer.gender ? "Male" : "Female"}</p>
             <p>DOB: {customer.created_at || "Not provided"}</p>
-            <p>Age: {customer.created_at ? calculateAge(customer.created_at) : "Not provided"}</p>
+            <p>
+              Age:{" "}
+              {customer.created_at
+                ? calculateAge(customer.created_at)
+                : "Not provided"}
+            </p>
           </div>
           <div>
             <h3 className="font-semibold">Contact Info</h3>
@@ -102,20 +115,20 @@ const CustomerProfilePage = () => {
             <p>Address: {customer.address}</p>
           </div>
         </div>
-      <div className="mt-8 grid grid-cols-2 gap-4 text-center">
-        <div>
-          <h3 className="font-semibold">Account Status</h3>
-          <p>Status: Active</p> {/* Dummy data for account status */}
-          <p>Created on: {customer.created_at || "Not provided"}</p>
-        </div>
-        <div>
-          <h3 className="font-semibold">Customer Status</h3>
-          <p>Status: Verified</p> {/* Dummy data for customer status */}
-          <p>Verified on: 2024-12-19</p> {/* Dummy data for verification date */}
+        <div className="mt-8 grid grid-cols-2 gap-4 text-center">
+          <div>
+            <h3 className="font-semibold">Account Status</h3>
+            <p>Status: Active</p> {/* Dummy data for account status */}
+            <p>Created on: {customer.created_at || "Not provided"}</p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Customer Status</h3>
+            <p>Status: Verified</p> {/* Dummy data for customer status */}
+            <p>Verified on: 2024-12-19</p>{" "}
+            {/* Dummy data for verification date */}
+          </div>
         </div>
       </div>
-      </div>
-
 
       {/* Action Buttons */}
       <div className="mt-8 flex justify-center space-x-4">
@@ -171,4 +184,3 @@ const CustomerProfilePage = () => {
 };
 
 export default CustomerProfilePage;
-
